@@ -1,5 +1,15 @@
 import { SongTrack, TopSearchItem } from '../types';
 
+const MUSIC_SEARCH_URL = '/music-api/search?alt=json&key=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30';
+const MUSIC_CONTEXT = {
+  context: {
+    client: {
+      clientName: 'WEB_REMIX',
+      clientVersion: '1.20250401.00.00',
+    },
+  },
+};
+
 type MusicText = {
   runs?: Array<{ text?: string; navigationEndpoint?: { watchEndpoint?: { videoId?: string } } }>;
   simpleText?: string;
@@ -20,16 +30,6 @@ type MusicRenderer = {
 
 type MusicSearchResponse = {
   contents?: unknown;
-};
-
-const MUSIC_SEARCH_URL = '/music-api/search?alt=json&key=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30';
-const MUSIC_CONTEXT = {
-  context: {
-    client: {
-      clientName: 'WEB_REMIX',
-      clientVersion: '1.20250401.00.00',
-    },
-  },
 };
 
 function textFromRuns(text?: MusicText): string {
@@ -151,7 +151,7 @@ async function requestJson<T>(url: string, body: unknown, signal?: AbortSignal):
 
 export async function fetchTopSearches(signal?: AbortSignal): Promise<TopSearchItem[]> {
   try {
-    const response = await fetch(`https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=`, { signal });
+    const response = await fetch('https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=', { signal });
     if (!response.ok) {
       return [];
     }
@@ -168,10 +168,14 @@ export async function fetchTopSearches(signal?: AbortSignal): Promise<TopSearchI
 }
 
 export async function searchSongs(query: string, page = 1, count = 20, signal?: AbortSignal): Promise<{ songs: SongTrack[]; hasMore: boolean }> {
-  const data = await requestJson<MusicSearchResponse>(MUSIC_SEARCH_URL, {
-    ...MUSIC_CONTEXT,
-    query,
-  }, signal);
+  const data = await requestJson<MusicSearchResponse>(
+    MUSIC_SEARCH_URL,
+    {
+      ...MUSIC_CONTEXT,
+      query,
+    },
+    signal
+  );
 
   const renderers = collectRenderers(data.contents);
   const songs = renderers.map(normalizeRenderer).filter((song): song is SongTrack => Boolean(song));

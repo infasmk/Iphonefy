@@ -240,7 +240,7 @@ export default function App() {
               <span className="eyebrow">Results</span>
               <h2>{query.trim().length >= 2 ? `Search for ${query.trim()}` : 'Top search suggestions'}</h2>
             </div>
-            <div className="status-pill">{loading ? 'Loading' : searchError ? 'Check proxy' : 'Ready'}</div>
+            <div className="status-pill">{loading ? 'Loading' : searchError ? 'Search unavailable' : 'Ready'}</div>
           </div>
 
           {searchError ? <div className="error-banner">{searchError}</div> : null}
