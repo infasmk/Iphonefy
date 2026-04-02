@@ -9,6 +9,9 @@ export interface SongTrack {
   image: string;
   duration?: number;
   streamUrl?: string;
+  videoId?: string;
+  watchUrl?: string;
+  embedUrl?: string;
   permaUrl?: string;
   language?: string;
   year?: string | number;

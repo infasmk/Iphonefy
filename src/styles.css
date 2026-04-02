@@ -473,6 +473,15 @@ img {
   border-radius: 22px;
 }
 
+.player-frame {
+  width: 100%;
+  min-height: 240px;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 20px;
+  background: #000;
+}
+
 .progress-bar {
   padding: 4px 0;
 }
