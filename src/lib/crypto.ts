@@ -20,7 +20,8 @@ export function decodeSaavnMedia(encrypted?: string): string {
   try {
     const key = CryptoJS.enc.Utf8.parse('38346591');
     const ciphertext = CryptoJS.enc.Base64.parse(encrypted);
-    const decrypted = CryptoJS.DES.decrypt({ ciphertext }, key, {
+    const cipherParams = CryptoJS.lib.CipherParams.create({ ciphertext });
+    const decrypted = CryptoJS.DES.decrypt(cipherParams, key, {
       mode: CryptoJS.mode.ECB,
       padding: CryptoJS.pad.Pkcs7,
     });
